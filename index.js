@@ -26,17 +26,24 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    console.log("Server successfully connected to MongoDB!");
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
+    console.log("🛢 Server successfully connected to MongoDB!");
+
+    const db = client.db("craft-your-pc");
+    const productCollection = db.collection("products");
+
+    app.get("/products", async (req, res) => {
+      const products = await productCollection.find({}).toArray();
+
+      res.status(200).send({ success: true, statusCode: 200, data: products });
+    });
+
+    app.get("/", (req, res) => {
+      res.send({ message: "Server Api Working!!" });
+    });
   } finally {
   }
 }
 run().catch(console.dir);
-
-app.get("/", (req, res) => {
-  res.send({ message: "Server Api Working!!" });
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
