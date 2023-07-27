@@ -36,14 +36,14 @@ async function run() {
 
       res.status(200).send({ success: true, statusCode: 200, data: products });
     });
-
-    app.get("/", (req, res) => {
-      res.send({ message: "CraftYourPC Server Api Working!!" });
-    });
   } finally {
   }
 }
 run().catch(console.dir);
+
+app.get("/", (req, res) => {
+  res.send({ message: "CraftYourPC Server Api Working!!" });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
