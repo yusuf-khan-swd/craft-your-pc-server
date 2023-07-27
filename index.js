@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 console.log(process.env.DB_USER);
+console.log(process.env.DB_USER);
 
 const port = process.env.PORT || 5000;
 
