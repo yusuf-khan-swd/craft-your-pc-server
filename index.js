@@ -38,7 +38,7 @@ async function run() {
     });
 
     app.get("/", (req, res) => {
-      res.send({ message: "Server Api Working!!" });
+      res.send({ message: "CraftYourPC Server Api Working!!" });
     });
   } finally {
   }
