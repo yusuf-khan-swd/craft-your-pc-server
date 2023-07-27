@@ -1,0 +1,11 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "cSpell.words": [
+    "antd",
+    "hoverable",
+    "reduxjs",
+    "Sider"
+  ]
+}
