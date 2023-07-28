@@ -38,6 +38,15 @@ async function run() {
       res.status(200).send({ success: true, statusCode: 200, data: result });
     });
 
+    app.get("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await productCollection.findOne({
+        _id: new ObjectId(id),
+      });
+
+      res.status(200).send({ success: true, statusCode: 200, data: result });
+    });
+
     app.get("/categories", async (req, res) => {
       const result = await categoryCollection.find({}).toArray();
 
