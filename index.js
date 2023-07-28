@@ -1,15 +1,15 @@
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 const app = express();
 
-const port = process.env.PORT || 5000;
-const db_user = process.env.DB_USER;
-const db_password = process.env.DB_PASSWORD;
-
 app.use(cors());
 app.use(express.json());
+
+const port = process.env.PORT || 5000;
+const db_user = process.env.DB_USER;
+const db_password = process.env.DB_PASS;
 
 const uri = `mongodb+srv://${db_user}:${db_password}@cluster0.t99wqyy.mongodb.net/?retryWrites=true&w=majority"`;
 
@@ -30,11 +30,27 @@ async function run() {
 
     const db = client.db("craft-your-pc");
     const productCollection = db.collection("products");
+    const categoryCollection = db.collection("categories");
 
     app.get("/products", async (req, res) => {
-      const products = await productCollection.find({}).toArray();
+      const result = await productCollection.find({}).toArray();
 
-      res.status(200).send({ success: true, statusCode: 200, data: products });
+      res.status(200).send({ success: true, statusCode: 200, data: result });
+    });
+
+    app.get("/categories", async (req, res) => {
+      const result = await categoryCollection.find({}).toArray();
+
+      res.status(200).send({ success: true, statusCode: 200, data: result });
+    });
+
+    app.get("/category/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await categoryCollection.findOne({
+        _id: new ObjectId(id),
+      });
+
+      res.status(200).send({ success: true, statusCode: 200, data: result });
     });
   } finally {
   }
@@ -43,6 +59,10 @@ run().catch(console.dir);
 
 app.get("/", (req, res) => {
   res.send({ message: "CraftYourPC Server Api Working!!" });
+});
+
+app.get("/items", (req, res) => {
+  res.status(200).send({ success: true, statusCode: 200, data: [{}, {}] });
 });
 
 app.listen(port, () => {
