@@ -53,6 +53,50 @@ async function run() {
       res.status(200).send({ success: true, statusCode: 200, data: result });
     });
 
+    app.get("/category-products/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        const category = await categoryCollection.findOne({
+          _id: new ObjectId(id),
+        });
+
+        if (!category) {
+          return res.status(404).send({
+            success: false,
+            statusCode: 404,
+            message: "No category found by the provided ID.",
+          });
+        }
+
+        const products = await productCollection
+          .find({ category: category.category_name })
+          .toArray();
+
+        if (products.length < 1) {
+          return res.status(404).send({
+            success: false,
+            statusCode: 404,
+            message: "Products not found",
+            data: products,
+          });
+        }
+
+        res.status(200).send({
+          success: true,
+          statusCode: 200,
+          message: "Product retrieve successfully",
+          data: products,
+        });
+      } catch (error) {
+        res.status(400).send({
+          success: false,
+          statusCode: 400,
+          error: error,
+          message: error.message,
+        });
+      }
+    });
+
     app.get("/category/:id", async (req, res) => {
       const id = req.params.id;
       const result = await categoryCollection.findOne({
