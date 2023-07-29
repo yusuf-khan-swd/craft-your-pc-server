@@ -65,6 +65,7 @@ async function run() {
             success: false,
             statusCode: 404,
             message: "No category found by the provided ID.",
+            data: { products: [], category: [] },
           });
         }
 
@@ -77,7 +78,7 @@ async function run() {
             success: false,
             statusCode: 404,
             message: "Products not found",
-            data: products,
+            data: { products: [], category: [] },
           });
         }
 
@@ -85,7 +86,7 @@ async function run() {
           success: true,
           statusCode: 200,
           message: "Product retrieve successfully",
-          data: products,
+          data: { products, category },
         });
       } catch (error) {
         res.status(400).send({
