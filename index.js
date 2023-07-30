@@ -33,7 +33,9 @@ async function run() {
     const categoryCollection = db.collection("categories");
 
     app.get("/products", async (req, res) => {
-      const result = await productCollection.find({}).toArray();
+      const result = await productCollection
+        .aggregate([{ $sample: { size: 9 } }])
+        .toArray();
 
       res.status(200).send({ success: true, statusCode: 200, data: result });
     });
